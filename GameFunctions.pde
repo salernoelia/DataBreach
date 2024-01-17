@@ -14,7 +14,7 @@ public void spawnVirus() {
 
 // Increase virus sound/emulate it moving closer
 
-void updateVirusProximity() {
+public void updateVirusProximity() {
   if (VirusProximity < VirusTargetProximity) {
     if(VirusExists == true){
       VirusProximity += VirusProximityIncrement;
@@ -25,15 +25,15 @@ void updateVirusProximity() {
 
 // Check cube rotation/user rotation
 
-float userDirection = 0.0; // Variable to store the user's pointing direction
-float tolerance = 15.0; // Tolerance in degrees
+public float userDirection = 0.0; // Variable to store the user's pointing direction
+public float tolerance = 15.0; // Tolerance in degrees
 public void checkUserDirection() {
   userDirection = map(GyroZ, -3.2, 3.2, 0, 1);
 }
 
 // is the user aligned with the virus
 
-boolean isDirectionOverlapping(float generatedAngle) {
+public boolean isDirectionOverlapping(float generatedAngle) {
   // Check if the user's pointing direction overlaps with the generated angle
   return abs(userDirection - generatedAngle) <= tolerance / 180.0;
 }

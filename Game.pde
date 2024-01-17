@@ -56,7 +56,7 @@ float VirusProximityIncrement = 1.0; // Increment for each frame to reach the ta
 int virusSpawnDelay = 3000; // 3-second delay
 int lastVirusEliminationTime;
 boolean VirusExists = false;
- 
+
 
 void draw() {
  
