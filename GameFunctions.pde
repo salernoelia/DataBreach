@@ -63,5 +63,5 @@ void sendMessageUserDirection(){
   //ValueGyroX = map(GyroX, -1.6, 1.6, 1, 0);
   
   myMessage.add(userDirection);
-  oscP5.send(myMessage, myRemoteLocation);
+  oscP6.send(myMessage, myRemoteLocation);
 }

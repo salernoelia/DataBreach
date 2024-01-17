@@ -4,6 +4,7 @@ import themidibus.*;
 MidiBus myBus;
 
 OscP5 oscP5;
+OscP5 oscP6;
 NetAddress myRemoteLocation;
 float GyroX, GyroY, GyroZ;
 float OrientationM11, OrientationM12, OrientationM13, OrientationM21, OrientationM22, OrientationM23, OrientationM31, OrientationM32, OrientationM33;
@@ -23,6 +24,8 @@ void setup() {
   //myBus = new MidiBus(this, -1, "Bus 1");
   
   oscP5 = new OscP5(this, 8103);
+  oscP6 = new OscP5(this, 8104);
+  
   myRemoteLocation = new NetAddress("10.128.129.108", 8100);
   oscP5.plug(this, "Gyro", "/gyrosc/gyro");
   oscP5.plug(this, "OrientationMatrix", "/gyrosc/rmatrix");
@@ -47,8 +50,9 @@ public void Accelerometer(float X, float Y, float Z) {
 
 float timer = 0;
 boolean gameActive = false;
+boolean forceStop = false;
 float initialGyroZ; // Variable to store the initial GyroZ value
-float gyroZThreshold = 0.1; // Adjust the threshold based on the expected change
+float gyroZThreshold = 0.3; // Adjust the threshold based on the expected change
 float currentEnemyPosition = 0.0; // Initial value of the generated angle
 
 float VirusProximity = 0.0; // Initial size of the generated angle
@@ -63,13 +67,17 @@ boolean VirusExists = false;
 
 void draw() {
  
-  if (!gameActive && abs(GyroZ - initialGyroZ) > gyroZThreshold) {
+  if (gameActive == false && abs(GyroZ - initialGyroZ) > gyroZThreshold) {
     gameActive = true;
     //myBus.sendNoteOn(1, 70, 127);
     println("Game is now active!");
   }
   
   if(gameActive){
+    
+    if(forceStop == false){
+   
+    
     if (VirusExists == false){
       if (millis() - lastVirusEliminationTime >= virusSpawnDelay) {
         spawnVirus();
@@ -77,7 +85,7 @@ void draw() {
     }
   
   // activate message you want to send
-      sendMessageVirusProximity();
+      
       sendMessageVirusPosition();
       sendMessageUserDirection();
       
@@ -92,6 +100,7 @@ void draw() {
     if (millis() >= 500+timer) {
       timer = millis();
       updateVirusProximity();
+      sendMessageVirusProximity();
     }
     
     checkUserDirection();
@@ -109,9 +118,11 @@ void draw() {
     } else {
       if(VirusProximity > 0.9){
         gameActive = false;
+        forceStop = true;
         //myBus.sendNoteOn(3, 40, 127);
         println("GAME OVER OOPSIES");
       } 
     }
   }
+   }
 }
