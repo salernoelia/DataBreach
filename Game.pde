@@ -50,12 +50,15 @@ boolean gameActive = false;
 float initialGyroZ; // Variable to store the initial GyroZ value
 float gyroZThreshold = 0.1; // Adjust the threshold based on the expected change
 float currentEnemyPosition = 0.0; // Initial value of the generated angle
-float VirusProximity = 1.0; // Initial size of the generated angle
-float VirusTargetProximity = 10.0; // Target size of the generated angle
-float VirusProximityIncrement = 1.0; // Increment for each frame to reach the target size
+
+float VirusProximity = 0.0; // Initial size of the generated angle
+float VirusTargetProximity = 1.0; // Target size of the generated angl
+
+float VirusProximityIncrement = 0.1; // Increment for each frame to reach the target size
 int virusSpawnDelay = 3000; // 3-second delay
 int lastVirusEliminationTime;
 boolean VirusExists = false;
+
 
 
 void draw() {
@@ -67,9 +70,7 @@ void draw() {
   }
   
   if(gameActive){
-    
     if (VirusExists == false){
-      
       if (millis() - lastVirusEliminationTime >= virusSpawnDelay) {
         spawnVirus();
       }
@@ -86,6 +87,7 @@ void draw() {
     println(currentEnemyPosition);
     println(userDirection);
     println(VirusProximity);
+    println(VirusExists);
   
     if (millis() >= 500+timer) {
       timer = millis();
@@ -96,16 +98,16 @@ void draw() {
     
     if (isDirectionOverlapping(currentEnemyPosition)) {
     
-      if(VirusProximity == 10.0){
+      if(VirusProximity > 0.9){
         println("You have caught the virus! But there's more coming!");
         lastVirusEliminationTime = millis(); // Update the last elimination time
         
-        VirusProximity = 1.0;
+        VirusProximity = 0.0;
         VirusExists = false;
       }
       
     } else {
-      if(VirusProximity == 10.0){
+      if(VirusProximity > 0.9){
         gameActive = false;
         //myBus.sendNoteOn(3, 40, 127);
         println("GAME OVER OOPSIES");

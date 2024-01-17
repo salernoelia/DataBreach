@@ -5,7 +5,7 @@ public void spawnVirus() {
     // Map the angle to the range 0-1
     float mappedAngle = map(randomAngle, 0, TWO_PI, 0, 1);
     currentEnemyPosition = mappedAngle;
-    VirusProximity = 1.0;
+    VirusProximity = 0.0;
     println("New virus spawned");
     //myBus.sendNoteOn(2, 20, 127);
     VirusExists = true;
@@ -13,7 +13,6 @@ public void spawnVirus() {
 }
 
 // Increase virus sound/emulate it moving closer
-
 public void updateVirusProximity() {
   if (VirusProximity < VirusTargetProximity) {
     if(VirusExists == true){
@@ -21,6 +20,7 @@ public void updateVirusProximity() {
     }
   }
 }
+
 
 
 // Check cube rotation/user rotation
@@ -36,4 +36,32 @@ public void checkUserDirection() {
 public boolean isDirectionOverlapping(float generatedAngle) {
   // Check if the user's pointing direction overlaps with the generated angle
   return abs(userDirection - generatedAngle) <= tolerance / 180.0;
+}
+
+
+// Send messages to ableton 
+
+//Virus Proximity
+void sendMessageVirusProximity(){
+  OscMessage myMessage = new OscMessage("/VirusProximity");
+  myMessage.add(VirusProximity);
+  oscP5.send(myMessage, myRemoteLocation);
+}
+
+void sendMessageVirusPosition(){
+  OscMessage myMessage = new OscMessage("/VirusPosition");
+  
+  //ValueGyroX = map(GyroX, -1.6, 1.6, 1, 0);
+  
+  myMessage.add(currentEnemyPosition);
+  oscP5.send(myMessage, myRemoteLocation);
+}
+
+void sendMessageUserDirection(){
+  OscMessage myMessage = new OscMessage("/UserDirection");
+  
+  //ValueGyroX = map(GyroX, -1.6, 1.6, 1, 0);
+  
+  myMessage.add(userDirection);
+  oscP5.send(myMessage, myRemoteLocation);
 }
