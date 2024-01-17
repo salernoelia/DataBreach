@@ -36,29 +36,12 @@ public void Gyro(float X, float Y, float Z) {
   GyroZ = Z;
 }
 
-public void OrientationMatrix(float m11, float m12, float m13, float m21, float m22, float m23, float m31, float m32, float m33) {
-  OrientationM11 = m11;
-  OrientationM12 = m12;
-  OrientationM13 = m13;
-  OrientationM21 = m21;
-  OrientationM22 = m22;
-  OrientationM23 = m23;
-  OrientationM31 = m31;
-  OrientationM32 = m32;
-  OrientationM33 = m33;
-}
-
 public void Accelerometer(float X, float Y, float Z) {
   AccelX = X;
   AccelY = Y;
   AccelZ = Z;
 }
 
-public void Magnetometer(float X, float Y, float Z) {
-  MagnX = X;
-  MagnY = Y;
-  MagnZ = Z;
-}
 
 // Game variables
 
@@ -108,12 +91,9 @@ void draw() {
       timer = millis();
       updateVirusProximity();
     }
- 
-  
+    
     checkUserDirection();
-  
-  
-  
+    
     if (isDirectionOverlapping(currentEnemyPosition)) {
     
       if(VirusProximity == 10.0){

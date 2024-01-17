@@ -2,8 +2,7 @@
 void sendMessageVirusProximity(){
   OscMessage myMessage = new OscMessage("/VirusProximity");
   
-  //ValueGyroX = map(GyroX, -1.6, 1.6, 1, 0);
-  
+  VirusProximity = map(VirusProximity, 1.0, 10.0, 1, 0);
   myMessage.add(VirusProximity);
   oscP5.send(myMessage, myRemoteLocation);
 }
